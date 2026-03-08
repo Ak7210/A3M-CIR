@@ -53,9 +53,9 @@ A3M-CIR/
 │   ├── sdbs.ipynb
 │   └── smarts.py
 │
-├── pretraining/
+├── pretraining_code.ipynb/
 │
-├── finetuning/
+├── finetuning_code.ipynb/
 │
 └── README.md
 ```
