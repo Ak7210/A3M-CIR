@@ -1,101 +1,212 @@
 # A3M-CIR
 
-A3M-CIR: An Attention-Aware Adversarial Masking Based Self-Supervised Chemometric Framework for Robust Infrared Spectral Analysis
+## A3M-CIR: An Attention-Aware Adversarial Masking Based Self-Supervised Chemometric Framework for Robust Infrared Spectral Analysis
 
-This repository provides the complete pipeline used in our work, including data scraping, data preprocessing, model pretraining, and model finetuning. The code is organized to allow users to reproduce the full data preparation and training workflow described in the paper.
+This repository provides the complete implementation of **A3M-CIR**, a self-supervised chemometric framework for **robust infrared (IR) spectral analysis**.
+
+The repository contains the full pipeline used in the paper, including:
+
+- Data scraping
+- Data preprocessing
+- Model pretraining
+- Model finetuning
+
+The codebase is organized to allow researchers to **reproduce the full data preparation and training workflow** described in the paper.
 
 ---
 
-## Paper
+# Paper
 
 This repository accompanies the research paper:
 
-A3M-CIR: An Attention-Aware Adversarial Masking Based Self-Supervised Chemometric Framework for Robust Infrared Spectral Analysis
+**A3M-CIR: An Attention-Aware Adversarial Masking Based Self-Supervised Chemometric Framework for Robust Infrared Spectral Analysis**
 
-The implementation provided here allows users to reproduce the experiments and training procedures described in the paper.
-
----
-
-## Overview
-
-The repository contains scripts and notebooks used to collect datasets, preprocess the collected spectra, and train the proposed model.
-
-The workflow begins with scraping the raw datasets. After data collection, preprocessing scripts convert the raw data into a structured format suitable for model training. The processed data can then be used for model pretraining and finetuning.
+If you use this repository in your research, please cite the paper.
 
 ---
 
-## Repository Structure
+# Requirements
 
-The repository consists of the following major components.
-
-### Data Scraping
-
-The repository includes scraping codes that were used to collect the raw spectral datasets. These scripts download and organize the datasets required for the experiments.
-
-The scraped data serves as the input for the preprocessing stage.
+- **Python >= 3.9**
+- Conda or virtual environment recommended
+- Pytorch
 
 ---
 
-### Data Preprocessing
+# Repository Structure
 
-After scraping the raw datasets, preprocessing is performed to convert the data into a format suitable for training.
-
-The preprocessing stage includes three files.
-
-#### nist.ipynb
-
-This notebook preprocesses the NIST dataset and converts the raw spectral data into the format required for model training.
-
-#### sdbs.ipynb
-
-This notebook preprocesses the SDBS dataset and prepares it for use in the training pipeline.
-
-#### smarts.py
-
-This script generates and processes SMARTS related representations that are required for the training framework.
-
-These preprocessing files transform the raw scraped data into structured datasets that can be directly used during model training.
-
----
-
-## Model Pretraining
-
-The repository provides the code required to pretrain the model described in the paper.
-
-The pretraining process uses the processed datasets generated during the preprocessing stage. To run the pretraining pipeline, users only need to provide the path to the training data files and configure the training parameters according to the values described in the paper.
-
----
-
-## Model Finetuning
-
-The repository also includes code for finetuning the pretrained model.
-
-Finetuning allows the pretrained model to adapt to specific datasets and evaluation tasks. To perform finetuning, users need to provide the paths to the training dataset, validation dataset, and testing dataset.
-
-All parameters should be set according to the configuration described in the paper to reproduce the reported results.
+```
+A3M-CIR/
+│
+├── scraping/
+│   ├── sdbs_data/
+│   │   └── CSV files containing molecule details
+│   │
+│   ├── nist_data/
+│   │   └── CSV files containing molecule details
+│   │
+│   ├── sdbs.ipynb
+│   └── nist.ipynb
+│
+├── preprocessing/
+│   ├── nist.ipynb
+│   ├── sdbs.ipynb
+│   └── smarts.py
+│
+├── pretraining/
+│
+├── finetuning/
+│
+└── README.md
+```
 
 ---
 
-## Usage Workflow
+# Data Collection
 
-The recommended workflow for using this repository is as follows.
+The **scraping** directory contains scripts and metadata used to collect spectral datasets.
 
-Step 1  
-Run the scraping scripts to collect the raw spectral datasets.
+### Contents
 
-Step 2  
-Run the preprocessing notebooks and scripts to convert the raw data into structured datasets.
+**sdbs_data/**  
+Contains CSV files with molecule information collected from the **SDBS database**.
 
-Step 3  
-Run the pretraining code using the processed datasets.
+**nist_data/**  
+Contains CSV files with molecule information collected from the **NIST database**.
 
-Step 4  
-Run the finetuning code by providing the paths to the training, validation, and testing datasets and configuring the parameters according to the paper.
+**sdbs.ipynb**  
+Notebook used to scrape infrared spectral data from the **SDBS database**.
+
+**nist.ipynb**  
+Notebook used to scrape infrared spectral data from the **NIST database**.
+
+These scripts download and organize the raw spectral datasets used for the experiments.
 
 ---
 
-## Notes
+# Data Preprocessing
 
-Users only need to update the dataset file paths and configure the parameters according to the paper. The rest of the pipeline is already implemented in the provided scripts.
+The **preprocessing** directory contains scripts used to convert scraped data into a format suitable for model training.
 
-This repository is designed to make the data preparation and model training process easy to reproduce.
+### Files
+
+**nist.ipynb**  
+Preprocesses the scraped NIST spectral data and converts it into the required training format.
+
+**sdbs.ipynb**  
+Preprocesses the scraped SDBS spectral data.
+
+**smarts.py**  
+Contains definitions of **chemical functional groups using SMARTS (SMiles ARbitrary Target Specification) strings**.  
+These SMARTS patterns are used to identify functional groups in molecules and generate structural representations used during preprocessing and model training.
+
+After preprocessing, the datasets are converted into **structured datasets ready for model training**.
+
+---
+
+# Installation
+
+We recommend creating a dedicated environment before running the code.
+
+### Create Environment
+
+```
+conda create -n a3m_cir python=3.9
+conda activate a3m_cir
+```
+
+*(Python version must be **>= 3.9**)*
+
+
+
+---
+
+# Model Pretraining
+
+The repository includes the implementation required to **pretrain the A3M-CIR model** using the processed datasets.
+
+### Run Pretraining
+
+```
+python pretraining/train.py --data_path path_to_dataset
+```
+
+Make sure the dataset path points to the **processed dataset generated during preprocessing**.
+
+Training parameters should follow the configuration described in the paper.
+
+---
+
+# Model Finetuning
+
+The repository also includes scripts for **finetuning the pretrained model**.
+
+Finetuning allows the model to adapt to specific evaluation tasks.
+
+### Run Finetuning
+
+```
+python finetuning/train.py \
+    --train_data path_to_train \
+    --val_data path_to_val \
+    --test_data path_to_test
+```
+
+---
+
+# Usage Workflow
+
+To reproduce the full pipeline, follow these steps:
+
+### Step 1 — Data Scraping
+
+Run the scraping notebooks to collect spectral datasets.
+
+```
+scraping/sdbs.ipynb
+scraping/nist.ipynb
+```
+
+### Step 2 — Data Preprocessing
+
+Convert raw scraped data into structured datasets.
+
+```
+preprocessing/sdbs.ipynb
+preprocessing/nist.ipynb
+```
+
+### Step 3 — Model Pretraining
+
+Train the self-supervised model using the processed datasets.
+
+### Step 4 — Model Finetuning
+
+Finetune the pretrained model for downstream tasks.
+
+---
+
+# Dataset Sources
+
+The datasets used in this work are obtained from:
+
+- **NIST Chemistry WebBook**
+- **SDBS (Spectral Database for Organic Compounds)**
+
+Please refer to the respective databases for their licensing and usage policies.
+
+---
+
+# Reproducibility
+
+To reproduce the results reported in the paper:
+
+- Use the preprocessing pipeline provided in this repository
+- Use the same hyperparameters described in the paper
+- Train the model using the provided scripts
+
+---
+
+
+- NIST Chemistry WebBook
+- SDBS Spectral Database
