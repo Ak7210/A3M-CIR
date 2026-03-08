@@ -29,7 +29,7 @@ If you use this repository in your research, please cite the paper.
 
 - **Python >= 3.9**
 - Conda or virtual environment recommended
-- Pytorch
+- **PyTorch**
 
 ---
 
@@ -53,9 +53,9 @@ A3M-CIR/
 │   ├── sdbs.ipynb
 │   └── smarts.py
 │
-├── pretraining_code.ipynb/
+├── pretraining_code.ipynb
 │
-├── finetuning_code.ipynb/
+├── finetuning_code.ipynb
 │
 └── README.md
 ```
@@ -117,40 +117,45 @@ conda activate a3m_cir
 
 *(Python version must be **>= 3.9**)*
 
-
-
 ---
 
 # Model Pretraining
 
-The repository includes the implementation required to **pretrain the A3M-CIR model** using the processed datasets.
+The repository includes a **Jupyter Notebook** for pretraining the A3M-CIR model using the processed datasets.
 
-### Run Pretraining
+### Pretraining Notebook
 
 ```
-python pretraining/train.py --data_path path_to_dataset
+pretraining_code.ipynb
 ```
 
-Make sure the dataset path points to the **processed dataset generated during preprocessing**.
+Open the notebook and run the cells sequentially to perform model pretraining.
 
-Training parameters should follow the configuration described in the paper.
+Before training, configure the **dataset paths and training parameters** according to the setup described in the paper.
 
 ---
 
 # Model Finetuning
 
-The repository also includes scripts for **finetuning the pretrained model**.
+The repository also includes a **Jupyter Notebook** for finetuning the pretrained model.
 
-Finetuning allows the model to adapt to specific evaluation tasks.
+Finetuning allows the model to adapt to specific datasets and evaluation tasks.
 
-### Run Finetuning
+### Finetuning Notebook
 
 ```
-python finetuning/train.py \
-    --train_data path_to_train \
-    --val_data path_to_val \
-    --test_data path_to_test
+finetuning_code.ipynb
 ```
+
+Open the notebook and run the cells sequentially to perform finetuning.
+
+Before running the training cells, configure:
+
+- Training dataset path
+- Validation dataset path
+- Testing dataset path
+
+All hyperparameters should follow the configuration described in the paper.
 
 ---
 
@@ -178,11 +183,19 @@ preprocessing/nist.ipynb
 
 ### Step 3 — Model Pretraining
 
-Train the self-supervised model using the processed datasets.
+Run the pretraining notebook to train the self-supervised model.
+
+```
+pretraining_code.ipynb
+```
 
 ### Step 4 — Model Finetuning
 
-Finetune the pretrained model for downstream tasks.
+Run the finetuning notebook to evaluate and adapt the pretrained model.
+
+```
+finetuning_code.ipynb
+```
 
 ---
 
@@ -203,10 +216,6 @@ To reproduce the results reported in the paper:
 
 - Use the preprocessing pipeline provided in this repository
 - Use the same hyperparameters described in the paper
-- Train the model using the provided scripts
+- Run the provided notebooks for pretraining and finetuning
 
 ---
-
-
-- NIST Chemistry WebBook
-- SDBS Spectral Database
